@@ -51,7 +51,7 @@ builder.Services.AddAuthorization();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
-        policy.WithOrigins(builder.Configuration["Frontend:Url"] ?? "http://localhost:5173")
+        policy.WithOrigins("https://smart-expense-tracker-navy-xi.vercel.app/login")
               .AllowAnyHeader()
               .AllowAnyMethod());
 });
