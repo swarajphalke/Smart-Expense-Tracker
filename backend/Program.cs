@@ -51,7 +51,7 @@ builder.Services.AddAuthorization();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
-        policy.WithOrigins(builder.Configuration["Frontend:Url"] ?? "http://localhost:5173")
+        policy.AllowAnyOrigin()
               .AllowAnyHeader()
               .AllowAnyMethod());
 });
@@ -91,16 +91,16 @@ using (var scope = app.Services.CreateScope())
 
 // app.UseMiddleware<ErrorHandlingMiddleware>();
 
-if (app.Environment.IsDevelopment())
-{
     app.UseSwagger();
     app.UseSwaggerUI();
-}
 
 app.UseHttpsRedirection();
 app.UseCors("AllowFrontend");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+app.Urls.Add($"http://*:{port}");
 
 app.Run();
